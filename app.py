@@ -29,6 +29,15 @@ st.markdown("""
             border-right: 1px solid #1f293d;
         }
         
+        /* 🔥 FIX: Force all sidebar labels, paragraph texts, and widget headers to be brightly visible */
+        section[data-testid="stSidebar"] label,
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] p {
+            color: #e2e8f0 !important;
+            font-weight: 600 !important;
+            opacity: 1 !important;
+        }
+        
         /* Fixed Neon Blue/Purple Glowing Header Cards */
         .main-header-card {
             background: linear-gradient(90deg, #1e1b4b 0%, #311042 100%) !important;
@@ -92,7 +101,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Alert user if model binary file is missing from repository folder
 if pipeline is None:
     st.error("⚠️ 'model_pipeline.joblib' file not found in directory. Please run your final notebook cell and push the saved binary file to this repository.")
     st.stop()
@@ -100,8 +108,8 @@ if pipeline is None:
 # ==========================================================
 # 🎛️ SIDEBAR CONTROL PANEL: LIVE SIMULATOR INPUTS
 # ==========================================================
-st.sidebar.markdown("<h2 style='color: #6366f1; font-weight:800;'>🛠️ Habit Configuration</h2>", unsafe_allow_html=True)
-st.sidebar.write("Adjust the sliders below to simulate a real-time behavioral user profile:")
+st.sidebar.markdown("<h2 style='color: #6366f1; font-weight:800; margin-bottom: 0;'>🛠️ Configuration</h2>", unsafe_allow_html=True)
+st.sidebar.write("Adjust variables below to simulate real-time behavioral profiles:")
 
 # High-Vibrancy Numerical Feature Inputs
 sleep_hours = st.sidebar.slider("💤 Sleep Duration (Hours)", 3.0, 10.0, 6.5, 0.5)
@@ -127,11 +135,11 @@ age = st.sidebar.number_input("🎂 User Age Profile", min_value=12, max_value=2
 # 🧮 BACKGROUND FEATURE INFERENCE GENERATION
 # ==========================================================
 if social_media_hours >= 7.0 or screen_pre_sleep >= 2.5:
-    inferred_segment = "2"   # Extreme Screen User Persona
+    inferred_segment = "2"   
 elif sleep_hours >= 7.5 and social_media_hours <= 3.0:
-    inferred_segment = "1"   # Balanced User Persona
+    inferred_segment = "1"   
 else:
-    inferred_segment = "0"   # Moderate/In-Between Persona
+    inferred_segment = "0"   
 
 input_row = pd.DataFrame([{
     'age': age,
@@ -149,7 +157,6 @@ input_row = pd.DataFrame([{
     'User_Segment': inferred_segment
 }])
 
-# Execute live production model prediction arrays
 raw_prediction = pipeline.predict(input_row)[0]
 raw_probabilities = pipeline.predict_proba(input_row)[0]
 
@@ -161,7 +168,6 @@ col_metrics, col_graph = st.columns([1, 2], gap="large")
 with col_metrics:
     st.markdown("### 📊 Inference Engine Outputs")
     
-    # 🚨 DYNAMIC RISK INDICATOR CARD
     if raw_prediction == 1:
         st.markdown(f"""
             <div style="background-color: #7f1d1d; border: 2px solid #ef4444; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);">
@@ -181,7 +187,6 @@ with col_metrics:
         
     st.write("")
     
-    # User Persona Display Card
     persona_names = {
         "1": "🟦 Balanced Routine Archetype",
         "2": "🟥 High-Exposure Screen Dependent",
@@ -209,7 +214,6 @@ with col_graph:
         line_close=True,
         template="plotly_dark"
     )
-    # FIX: Changed fill='subsection' to fill='toself' to fix the ValueError crash
     fig.update_traces(fill='toself', fillcolor='rgba(99, 102, 241, 0.3)', line_color='#6366f1', line_width=3)
     fig.update_layout(
         polar=dict(
