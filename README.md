@@ -56,10 +56,16 @@ Here is the dynamic 3D rotation showcasing the spatial cluster separation:
 * Calculated the class penalty distribution multiplier ($1,169 \div 31 \approx 37.7$) and injected it into the tree frameworks via `scale_pos_weight` parameters to handle the rare class imbalance.
 
 ---
-
 ## 🏆 Evaluation & Model Insights
 
-Following an aggressive tournament, **LightGBM** claimed the champion position, yielding perfect performance boundaries ($1.0000$ F1-Score) on the stratified test split:
+Following an aggressive tournament, **LightGBM** claimed the champion position, yielding perfect performance boundaries ($1.0000$ F1-Score) on the stratified test split.
+
+### 📉 Predicted Scorecard Heatmap
+Here is the exact visual correlation matrix confirming zero misclassifications across our unseen test metrics:
+
+<p align="center">
+  <img src="Confusion_Matrix.png" width="75%" alt="LightGBM Confusion Matrix Scorecard" />
+</p>
 
 Predicted Healthy (0)     Predicted Risk Flag (1)
 Actual Risk Flag (1)         0                         6
