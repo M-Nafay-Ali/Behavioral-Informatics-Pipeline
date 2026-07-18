@@ -19,8 +19,8 @@ st.markdown("""
     <style>
         /* Force dark background for the entire app */
         .stApp {
-            background: linear-gradient(135deg, #0d0f12 0%, #151922 100%);
-            color: #e2e8f0;
+            background: linear-gradient(135deg, #0d0f12 0%, #151922 100%) !important;
+            color: #e2e8f0 !important;
         }
         
         /* Force Sidebar Theme */
@@ -29,33 +29,35 @@ st.markdown("""
             border-right: 1px solid #1f293d;
         }
         
-        /* Custom Neon Blue/Purple Glowing Header Cards */
+        /* Fixed Neon Blue/Purple Glowing Header Cards */
         .main-header-card {
-            background: linear-gradient(90deg, #1e1b4b 0%, #311042 100%);
-            padding: 24px;
-            border-radius: 12px;
-            border-left: 5px solid #6366f1;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
-            margin-bottom: 25px;
+            background: linear-gradient(90deg, #1e1b4b 0%, #311042 100%) !important;
+            padding: 25px !important;
+            border-radius: 12px !important;
+            border-left: 6px solid #6366f1 !important;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.25) !important;
+            margin-top: 10px !important;
+            margin-bottom: 25px !important;
+            display: block !important;
         }
         
         /* Bright High-Contrast Title Text */
         .main-title {
             color: #ffffff !important;
-            font-size: 32px !important;
+            font-size: 30px !important;
             font-weight: 800 !important;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            margin: 0;
+            margin: 0 !important;
+            padding: 0 !important;
         }
         
         /* Metric Card Stylings */
         .metric-card {
-            background: #11141a;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #1f293d;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            text-align: center;
+            background: #11141a !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+            border: 1px solid #1f293d !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+            text-align: center !important;
         }
         
         /* Input section header titles */
@@ -72,7 +74,6 @@ st.markdown("""
 @st.cache_resource
 def load_production_pipeline():
     try:
-        # Load the serialized complete pipeline engine
         return joblib.load('model_pipeline.joblib')
     except:
         return None
@@ -85,7 +86,7 @@ pipeline = load_production_pipeline()
 st.markdown("""
     <div class="main-header-card">
         <h1 class="main-title">🧠 Behavioral Informatics & Risk Prediction Dashboard</h1>
-        <p style="color: #94a3b8; font-size: 14px; margin-top: 5px; margin-bottom: 0;">
+        <p style="color: #cbd5e1 !important; font-size: 15px !important; margin-top: 8px !important; margin-bottom: 0 !important;">
             An advanced, end-to-end MLOps pipeline evaluating user lifestyle habits using LightGBM and K-Means Personas.
         </p>
     </div>
@@ -125,8 +126,6 @@ age = st.sidebar.number_input("🎂 User Age Profile", min_value=12, max_value=2
 # ==========================================================
 # 🧮 BACKGROUND FEATURE INFERENCE GENERATION
 # ==========================================================
-# Re-calculating the user persona segment cluster assignments mathematically via distance proximity rules
-# (Matches the logic of cluster centers built during your 3D spatial phase)
 if social_media_hours >= 7.0 or screen_pre_sleep >= 2.5:
     inferred_segment = "2"   # Extreme Screen User Persona
 elif sleep_hours >= 7.5 and social_media_hours <= 3.0:
@@ -134,7 +133,6 @@ elif sleep_hours >= 7.5 and social_media_hours <= 3.0:
 else:
     inferred_segment = "0"   # Moderate/In-Between Persona
 
-# Wrap inputs into an exact dataframe structure aligning with pipeline schema expectations
 input_row = pd.DataFrame([{
     'age': age,
     'gender': gender,
@@ -163,7 +161,7 @@ col_metrics, col_graph = st.columns([1, 2], gap="large")
 with col_metrics:
     st.markdown("### 📊 Inference Engine Outputs")
     
-    # 🚨 DYNAMIC RISK INDICATOR CARD (Highly Bright Color Changing Panels)
+    # 🚨 DYNAMIC RISK INDICATOR CARD
     if raw_prediction == 1:
         st.markdown(f"""
             <div style="background-color: #7f1d1d; border: 2px solid #ef4444; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);">
@@ -199,10 +197,9 @@ with col_metrics:
 with col_graph:
     st.markdown("### 🎨 Real-Time Habit Proximity Visualization")
     
-    # Generate interactive, brightly colored Radar chart dynamically changing based on sidebar input values
     radar_data = pd.DataFrame({
         'Metrics': ['Sleep Hours', 'Social Media Hours', 'Screen Before Bed', 'Stress Level', 'Anxiety Level'],
-        'Value': [sleep_hours, social_media_hours, screen_pre_sleep * 2.5, stress, anxiety] # Normalized scaling variables to keep the radar visual balanced
+        'Value': [sleep_hours, social_media_hours, screen_pre_sleep * 2.5, stress, anxiety]
     })
     
     fig = px.line_polar(
@@ -212,7 +209,8 @@ with col_graph:
         line_close=True,
         template="plotly_dark"
     )
-    fig.update_traces(fill='subsection', fillcolor='rgba(99, 102, 241, 0.3)', line_color='#6366f1', line_width=3)
+    # FIX: Changed fill='subsection' to fill='toself' to fix the ValueError crash
+    fig.update_traces(fill='toself', fillcolor='rgba(99, 102, 241, 0.3)', line_color='#6366f1', line_width=3)
     fig.update_layout(
         polar=dict(
             radialaxis=dict(visible=True, gridcolor="#1f293d", range=[0, 10]),
@@ -234,4 +232,3 @@ with st.expander("📊 View Synthetic Dataset Retrospective & Design Principles"
     * **The Pipeline Strategy:** This dashboard runs on a synchronized, multi-step pipeline structure. Inputs are captured dynamically, passed to mathematical custom logic handlers, and split into numerical standard deviations and categorical arrays completely on the fly without manual processing script bottlenecks.
     * **Synthetic Data Warning:** As thoroughly mapped during initial exploratory validation steps, this dashboard interfaces with an AI-generated dataset pattern structure containing tightly coupled closed-loop feature parameters. This explains why the validation matrices achieve near-absolute predictive metrics, turning this workspace into an educational blueprint showing production-level interface engineering rather than an operational clinical medical engine.
     """)
-
