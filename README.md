@@ -19,7 +19,16 @@ Instead of relying purely on a basic classification structure, this project impl
 3. **Supervised Tournament:** Running a leak-free execution framework between three state-of-the-art gradient boosting frameworks (**XGBoost**, **LightGBM**, and **CatBoost**) optimized to handle severe minority class imbalances.
 
 ---
+### 📊 Unsupervised Machine Learning Personas
+Our K-Means clustering algorithm successfully separated the users into 3 distinct behavioral groups. Here is the actual interactive 3D rendering of the clusters from different viewing angles:
 
+<p align="center">
+  <img src="3d_cluster_1.png" width="45%" />
+  <img src="3d_cluster_2.png" width="45%" />
+</p>
+
+
+ 
 ## 🛠️ Pipeline Architecture & Phase Breakdown
 
 ### 📥 Phase 1: Data Ingestion & Structural Inspection
